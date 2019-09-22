@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import app.jwt.JwtTokenProvider;
 import app.message.JwtResponse;
 import app.message.LoginRequest;
 import app.message.LoginResponse;
 import app.message.SignUpForm;
 import app.model.User;
-import app.model.repository.UserRepository;
-import app.model.security.jwt.JwtTokenProvider;
-import app.model.security.services.CustomUserDetails;
+import app.repository.UserRepository;
+import app.userservice.CustomUserDetails;
 
 
 

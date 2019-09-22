@@ -1,4 +1,4 @@
-package app.model.security;
+package app.security;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import app.model.security.jwt.JwtAuthenticationFilter;
-import app.model.security.services.UserService;
+import app.jwt.JwtAuthenticationFilter;
+import app.userservice.UserService;
 
 
 

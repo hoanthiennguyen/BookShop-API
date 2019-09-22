@@ -1,4 +1,4 @@
-package app.model.security.services;
+package app.userservice;
 
  
 import javax.transaction.Transactional;
@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import app.model.User;
-import app.model.repository.UserRepository;
+import app.repository.UserRepository;
 
 
 @Service

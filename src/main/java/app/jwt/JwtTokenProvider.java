@@ -1,4 +1,4 @@
-package app.model.security.jwt;
+package app.jwt;
 
 
 
@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import app.model.security.services.CustomUserDetails;
+import app.userservice.CustomUserDetails;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 

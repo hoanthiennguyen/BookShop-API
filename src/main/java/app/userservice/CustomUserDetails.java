@@ -1,4 +1,4 @@
-package app.model.security.services;
+package app.userservice;
 
 
 import java.util.Collection;
