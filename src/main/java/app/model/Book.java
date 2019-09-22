@@ -18,7 +18,7 @@ public class Book {
     protected String publishedBy;
     protected String providedBy;
     protected int rating;
-
+    protected int price;
 
 
 }
