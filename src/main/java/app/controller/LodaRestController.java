@@ -68,7 +68,7 @@ public class LodaRestController {
     	System.out.println(signup.getPassword());
     	User user = new User(signup.getUsername(), signup.getEmail(), encoder.encode(signup.getPassword()));
     	userRepository.save(user);
-    	return ResponseEntity.ok().body("User registered successfull");
+    	return ResponseEntity.ok().body("User registered successfully");
     }
   
 

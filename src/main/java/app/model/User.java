@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.util.List;
 
 @Entity
 public class User {
@@ -98,7 +99,14 @@ public class User {
 		this.email = email;
 		this.passwordHash = passwordHash;
 	}
-	
+	@ManyToMany
+	private List<Book> clickedBooks;
 
+	public List<Book> getClickedBooks() {
+		return clickedBooks;
+	}
 
+	public void setClickedBooks(List<Book> clickedBooks) {
+		this.clickedBooks = clickedBooks;
+	}
 }
