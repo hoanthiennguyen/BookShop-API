@@ -1,4 +1,4 @@
-package app.userservice;
+package app.service;
 
 
 import java.util.Collection;
@@ -9,7 +9,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import app.model.User;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 

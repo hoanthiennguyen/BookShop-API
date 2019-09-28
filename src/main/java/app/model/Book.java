@@ -1,11 +1,13 @@
 package app.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.sun.istack.internal.NotNull;
+
+import javax.persistence.*;
 import java.sql.Date;
 @Entity
 public class Book {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
     protected String productName;
     protected int quantity;
@@ -122,5 +124,25 @@ public class Book {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+    @Column(nullable = true)
+    double discount = 0;
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    protected String category;
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

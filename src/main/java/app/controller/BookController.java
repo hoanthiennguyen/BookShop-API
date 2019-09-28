@@ -2,16 +2,14 @@ package app.controller;
 
 import app.message.ClickBookRequest;
 import app.model.Book;
-import app.userservice.BookService;
-import app.userservice.CustomUserDetails;
-import app.userservice.UserService;
+import app.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,8 +17,8 @@ import java.util.List;
 public class BookController {
     @Autowired
     private BookService bookService;
-    @Autowired
-    private UserService userService;
+
+
     @GetMapping
     public List<Book> getAllBooks(){
         return bookService.getAllBooks();
@@ -34,7 +32,12 @@ public class BookController {
                                                  @Valid @RequestBody ClickBookRequest clickBookRequest){
         Long bookId = clickBookRequest.getBookId();
         String username = authentication.getName();
-        return bookService.addAnotherBooks(username,bookId);
+        return bookService.addBookToListOfClickedBooks(username,bookId);
+    }
+
+    @GetMapping("/top10_discount")
+    public List<Book> findTop10Discount(){
+        return new ArrayList<>();
     }
 
 

@@ -1,9 +1,8 @@
-package app.userservice;
+package app.service;
 
  
 import javax.transaction.Transactional;
 
-import app.model.Book;
 import app.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,9 +12,6 @@ import org.springframework.stereotype.Service;
 
 import app.model.User;
 import app.repository.UserRepository;
-
-import java.util.List;
-import java.util.Optional;
 
 
 @Service

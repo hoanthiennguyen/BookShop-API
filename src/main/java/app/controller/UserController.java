@@ -17,18 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 import app.jwt.JwtTokenProvider;
 import app.message.JwtResponse;
 import app.message.LoginRequest;
-import app.message.LoginResponse;
 import app.message.SignUpForm;
 import app.model.User;
 import app.repository.UserRepository;
-import app.userservice.CustomUserDetails;
+import app.service.CustomUserDetails;
 
 
 
 
 @RestController
 @RequestMapping("/api")
-public class LodaRestController {
+public class UserController {
 	
 	@Autowired
 	UserRepository userRepository;

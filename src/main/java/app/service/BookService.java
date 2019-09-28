@@ -1,4 +1,4 @@
-package app.userservice;
+package app.service;
 
 import app.model.Book;
 import app.model.User;
@@ -23,7 +23,7 @@ public class BookService {
         });
           return result;
     }
-    public List<Book> addAnotherBooks(String username, Long bookId){
+    public List<Book> addBookToListOfClickedBooks(String username, Long bookId){
         User user = userRepository.findByUsername(username);
         Book book = bookRepository.findById(bookId).get();
         List<Book> books = user.getClickedBooks();
@@ -40,4 +40,5 @@ public class BookService {
         User user = userRepository.findByUsername(username);
         return user.getClickedBooks();
     }
+
 }
