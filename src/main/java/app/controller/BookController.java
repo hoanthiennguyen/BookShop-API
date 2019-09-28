@@ -1,6 +1,8 @@
 package app.controller;
 
-import app.message.ClickBookRequest;
+import app.message.BaseResponse;
+import app.message.ClickedBooksResponse;
+import app.message.ClickedBooksRequest;
 import app.model.Book;
 import app.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,21 +25,28 @@ public class BookController {
     public List<Book> getAllBooks(){
         return bookService.getAllBooks();
     }
-    @GetMapping("/clicked_books")
-    public List<Book> getAllClickedBooks(@AuthenticationPrincipal Authentication authenticationPrincipal){
-        return bookService.getAllClickBooks(authenticationPrincipal.getName());
+    @GetMapping("/clicked-books")
+    public BaseResponse getAllClickedBooks(@AuthenticationPrincipal Authentication authenticationPrincipal){
+        List<Book> books = bookService.getAllClickBooks(authenticationPrincipal.getName());
+        BaseResponse response = new BaseResponse();
+        response.setData(books);
+        return response;
     }
-    @PostMapping("/clicked_books")
-    public List<Book> addBookOnListOfClickedBook(@AuthenticationPrincipal Authentication authentication,
-                                                 @Valid @RequestBody ClickBookRequest clickBookRequest){
-        Long bookId = clickBookRequest.getBookId();
+    @PostMapping("/clicked-books")
+    public BaseResponse addBookOnListOfClickedBook(@AuthenticationPrincipal Authentication authentication,
+                                                   @Valid @RequestBody ClickedBooksRequest clickedBooksRequest){
+        Long bookId = clickedBooksRequest.getBookId();
         String username = authentication.getName();
-        return bookService.addBookToListOfClickedBooks(username,bookId);
+        bookService.addBookToListOfClickedBooks(username,bookId);
+        ClickedBooksResponse res = new ClickedBooksResponse();
+        return res;
     }
 
-    @GetMapping("/top10_discount")
-    public List<Book> findTop10Discount(){
-        return new ArrayList<>();
+    @GetMapping("/top10-discount")
+    public BaseResponse findTop10Discount(){
+        BaseResponse response = new BaseResponse();
+        response.setData(new ArrayList<>());
+        return response;
     }
 
 

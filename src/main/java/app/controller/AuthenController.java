@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import app.jwt.JwtTokenProvider;
 import app.message.JwtResponse;
 import app.message.LoginRequest;
-import app.message.SignUpForm;
+import app.message.SignUpRequest;
 import app.model.User;
 import app.repository.UserRepository;
 import app.service.CustomUserDetails;
@@ -26,8 +26,8 @@ import app.service.CustomUserDetails;
 
 
 @RestController
-@RequestMapping("/api")
-public class UserController {
+@RequestMapping("/api/authen")
+public class AuthenController {
 	
 	@Autowired
 	UserRepository userRepository;
@@ -52,8 +52,6 @@ public class UserController {
                 )
         );
 
-        System.out.println(loginRequest.getUsername());
-        System.out.println(loginRequest.getPassword());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
        
@@ -62,7 +60,7 @@ public class UserController {
     }
     
     @PostMapping("/signup")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody  SignUpForm signup){
+    public ResponseEntity<String> registerUser(@Valid @RequestBody SignUpRequest signup){
     	
     	System.out.println(signup.getPassword());
     	User user = new User(signup.getUsername(), signup.getEmail(), encoder.encode(signup.getPassword()));

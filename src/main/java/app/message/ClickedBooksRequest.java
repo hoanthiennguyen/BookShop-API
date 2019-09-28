@@ -2,7 +2,7 @@ package app.message;
 
 import javax.validation.constraints.NotNull;
 
-public class ClickBookRequest {
+public class ClickedBooksRequest {
     @NotNull
     Long bookId;
 

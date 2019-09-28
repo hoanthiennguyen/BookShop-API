@@ -6,7 +6,7 @@ import app.model.Bill;
 import app.model.BillDetails;
 import app.model.Book;
 import app.model.User;
-import app.repository.BillDetailesRepository;
+import app.repository.BillDetailsRepository;
 import app.repository.BillRepository;
 import app.repository.BookRepository;
 import app.repository.UserRepository;
@@ -24,7 +24,7 @@ public class BillService {
     @Autowired
     private BillRepository billRepository;
     @Autowired
-    private BillDetailesRepository billDetailesRepository;
+    private BillDetailsRepository billDetailsRepository;
 
     public void postOrder(String username, BookListOrder listOrder){
         User user = userRepository.findByUsername(username);
@@ -33,7 +33,7 @@ public class BillService {
         for (BookOrder order: listOrder.getBookOrders()) {
             Book book = bookRepository.findById(order.getId()).get();
             int bookQuantity = order.getQuantity();
-            billDetailesRepository.save(new BillDetails(result, book, bookQuantity));
+            billDetailsRepository.save(new BillDetails(result, book, bookQuantity));
         }
     }
 }

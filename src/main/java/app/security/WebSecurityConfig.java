@@ -52,13 +52,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-    	http.authorizeRequests().antMatchers("/api/login","/api/signup").permitAll();
         http
                 
                 .csrf()
                     .disable()
                 .authorizeRequests()
-                    .antMatchers("/api/login","/api/signup").permitAll() 
+                    .antMatchers("/api/authen/*").permitAll()
                     .anyRequest().authenticated(); 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 

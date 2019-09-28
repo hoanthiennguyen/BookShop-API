@@ -1,17 +1,16 @@
 package app.message;
 
-import java.util.Set;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class SignUpForm {
+public class SignUpRequest {
 	@NotBlank
     @Size(min = 3, max = 50)
     private String username;
 
-    
+    @Email
     private String email;
 
     @NotBlank
