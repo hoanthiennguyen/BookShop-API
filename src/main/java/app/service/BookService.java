@@ -16,13 +16,7 @@ public class BookService {
     private BookRepository bookRepository;
     @Autowired
     private UserRepository userRepository;
-    public List<Book> getAllBooks(){
-        List<Book> result = new ArrayList<>();
-          bookRepository.findAll().forEach(book -> {
-          result.add(book);
-        });
-          return result;
-    }
+
     public List<Book> addBookToListOfClickedBooks(String username, Long bookId){
         User user = userRepository.findByUsername(username);
         Book book = bookRepository.findById(bookId).get();
@@ -40,5 +34,18 @@ public class BookService {
         User user = userRepository.findByUsername(username);
         return user.getClickedBooks();
     }
+    public List<Book> getBooksByCategory(String category){
+        return bookRepository.findBooksByCategoryAndIsDelete(category, false);
+    }
+    public Book saveBook(Book book){
+        return bookRepository.save(book);
+    }
+    public List<Book> getTop10Discount(){
+        return bookRepository.findTop10ByOrderByDiscountDesc();
+    }
+    public void deleteBook(Long id){
+        bookRepository.deleteById(id);
+    }
+
 
 }

@@ -11,7 +11,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,10 +20,7 @@ public class BookController {
     private BookService bookService;
 
 
-    @GetMapping
-    public List<Book> getAllBooks(){
-        return bookService.getAllBooks();
-    }
+
     @GetMapping("/clicked-books")
     public BaseResponse getAllClickedBooks(@AuthenticationPrincipal Authentication authenticationPrincipal){
         List<Book> books = bookService.getAllClickBooks(authenticationPrincipal.getName());
@@ -42,10 +38,36 @@ public class BookController {
         return res;
     }
 
-    @GetMapping("/top10-discount")
-    public BaseResponse findTop10Discount(){
+
+    @PostMapping
+    public BaseResponse saveBook(@RequestBody Book book){
         BaseResponse response = new BaseResponse();
-        response.setData(new ArrayList<>());
+        response.setData(bookService.saveBook(book));
+        return response;
+    }
+    @PutMapping("/{id}")
+    public BaseResponse updateBook(@RequestBody Book book){
+        BaseResponse response = new BaseResponse();
+        response.setData(bookService.saveBook(book));
+        return response;
+    }
+
+    @GetMapping
+    public BaseResponse getBookByCategory(@RequestParam String category){
+        BaseResponse response = new BaseResponse();
+        response.setData(bookService.getBooksByCategory(category));
+        return response;
+    }
+    @GetMapping("/discount")
+    public BaseResponse getTop10Discount(){
+        BaseResponse response = new BaseResponse();
+        response.setData(bookService.getTop10Discount());
+        return response;
+    }
+    @DeleteMapping("/{id}")
+    public BaseResponse deleteBook(@PathVariable Long id){
+        BaseResponse response = new BaseResponse();
+        bookService.deleteBook(id);
         return response;
     }
 

@@ -33,4 +33,6 @@ public class Book {
     @Column(nullable = true)
     protected String category;
 
+    public Book() {
+    }
 }
