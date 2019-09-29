@@ -23,4 +23,12 @@ public class BookOrder {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    public BookOrder(@NotNull Long id, @NotNull int quantity) {
+        this.id = id;
+        this.quantity = quantity;
+    }
+
+    public BookOrder() {
+    }
 }
