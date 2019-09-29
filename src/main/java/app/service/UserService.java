@@ -25,7 +25,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUser(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
@@ -41,7 +41,21 @@ public class UserService implements UserDetailsService {
 
         return new CustomUserDetails(user);
     }
-
+    
+    
+    public User updateProfile(User user, String username) {
+    	User result = userRepository.findByUsername(username);
+    	if(result!=null) {
+    		user.setUsername(username);
+    		userRepository.save(user);
+    	}
+    	return null;
+    	
+    }
+    
+    public void deleteUser(Long id) {
+    	userRepository.deleteById(id);
+    }
 
 
 

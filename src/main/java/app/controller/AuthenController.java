@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.jwt.JwtTokenProvider;
+import app.message.BaseResponse;
 import app.message.JwtResponse;
 import app.message.LoginRequest;
 import app.message.SignUpRequest;
@@ -60,12 +61,18 @@ public class AuthenController {
     }
     
     @PostMapping("/signup")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody SignUpRequest signup){
-    	
-    	System.out.println(signup.getPassword());
-    	User user = new User(signup.getUsername(), signup.getEmail(), encoder.encode(signup.getPassword()));
-    	userRepository.save(user);
-    	return ResponseEntity.ok().body("User registered successfully");
+    public BaseResponse registerUser(@Valid @RequestBody SignUpRequest signup){
+    	User result = userRepository.checkDup(signup.getUsername(), signup.getEmail());
+    	BaseResponse res = new BaseResponse();
+    	if(result == null) {
+    		User user = new User(signup.getUsername(), signup.getEmail(), encoder.encode(signup.getPassword()));
+    		userRepository.save(user);
+    		res.setCode(200);
+    		res.setMessage("Sign up successful!!!");
+    		res.setData(result);
+    		return res;
+    	}
+    	return new BaseResponse(500,"Duplicat username or email",signup);
     }
   
 
