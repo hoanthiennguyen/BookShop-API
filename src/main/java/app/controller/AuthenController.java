@@ -82,7 +82,7 @@ public class AuthenController {
              return ResponseEntity.ok(new JwtResponse(jwt));
     	}
     	
-    	return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Account duplicate!");
+    	return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body("Account duplicate!");
     }
     @GetMapping("/checkUsername")
     public boolean checkUsernameExist(@RequestParam String username){
