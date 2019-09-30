@@ -4,7 +4,7 @@ import app.message.BaseResponse;
 import app.message.BookOrder;
 import app.message.ChangeQuantityInCartItemRequest;
 import app.model.Bill;
-import app.model.Cart;
+import app.model.CartItem;
 import app.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -25,15 +25,15 @@ public class CartController {
         return response;
     }
     @PostMapping
-    public List<Cart> addItem(@AuthenticationPrincipal Authentication authentication, @RequestBody BookOrder order){
+    public List<CartItem> addItem(@AuthenticationPrincipal Authentication authentication, @RequestBody BookOrder order){
         return cartService.addItem(authentication.getName(),order);
     }
     @PutMapping("/{id}")
-    public List<Cart> editItem(@AuthenticationPrincipal Authentication authentication,@PathVariable Long id, @RequestBody ChangeQuantityInCartItemRequest quantity){
+    public List<CartItem> editItem(@AuthenticationPrincipal Authentication authentication, @PathVariable Long id, @RequestBody ChangeQuantityInCartItemRequest quantity){
         return cartService.editItem(authentication.getName(),id,quantity.getQuantity());
     }
     @DeleteMapping("/{id}")
-    public List<Cart> deleteItem(@AuthenticationPrincipal Authentication authentication, @PathVariable Long id){
+    public List<CartItem> deleteItem(@AuthenticationPrincipal Authentication authentication, @PathVariable Long id){
         return cartService.deleteItem(authentication.getName(),id);
     }
     @PostMapping("/pay")

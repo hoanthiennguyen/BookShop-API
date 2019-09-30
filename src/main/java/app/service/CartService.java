@@ -23,25 +23,25 @@ public class CartService {
     private BillRepository billRepository;
     @Autowired
     private BillDetailsRepository billDetailsRepository;
-    public List<Cart> getAllItemInCart(String username){
-        List<Cart> res = cartRepository.findAllByUser(userRepository.findByUsername(username));
+    public List<CartItem> getAllItemInCart(String username){
+        List<CartItem> res = cartRepository.findAllByUser(userRepository.findByUsername(username));
         return res;
     }
-    public List<Cart> addItem(String username, BookOrder order){
+    public List<CartItem> addItem(String username, BookOrder order){
         User user = userRepository.findByUsername(username);
-        Cart cart = new Cart();
-        cart.setUser(user);
-        cart.setBook(bookRepository.findById(order.getId()).get());
-        cart.setQuantity(order.getQuantity());
-        cartRepository.save(cart);
+        CartItem cartItem = new CartItem();
+        cartItem.setUser(user);
+        cartItem.setBook(bookRepository.findById(order.getId()).get());
+        cartItem.setQuantity(order.getQuantity());
+        cartRepository.save(cartItem);
         return getAllItemInCart(username);
     }
-    public List<Cart> editItem(String username,Long id, int quantity){
-        Cart cart = cartRepository.findById(id).get();
-        cart.setQuantity(quantity);
+    public List<CartItem> editItem(String username, Long id, int quantity){
+        CartItem cartItem = cartRepository.findById(id).get();
+        cartItem.setQuantity(quantity);
         return getAllItemInCart(username);
     }
-    public List<Cart> deleteItem(String username, Long cartId){
+    public List<CartItem> deleteItem(String username, Long cartId){
         cartRepository.deleteById(cartId);
         return getAllItemInCart(username);
     }
@@ -50,11 +50,11 @@ public class CartService {
     }
     @Transactional
     public Bill pay(String username){
-        List<Cart> carts = getAllItemInCart(username);
-        BookOrder[] bookOrders = new BookOrder[carts.size()];
+        List<CartItem> cartItems = getAllItemInCart(username);
+        BookOrder[] bookOrders = new BookOrder[cartItems.size()];
         int index = 0;
-        for(Cart cart: carts){
-            BookOrder order = new BookOrder(cart.getBook().getId(),cart.getQuantity());
+        for(CartItem cartItem : cartItems){
+            BookOrder order = new BookOrder(cartItem.getBook().getId(), cartItem.getQuantity());
             bookOrders[index] = order;
             index++;
         }
