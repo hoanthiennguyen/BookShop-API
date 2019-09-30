@@ -6,6 +6,7 @@ import javax.websocket.server.PathParam;
 import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import app.jwt.JwtTokenProvider;
+import app.message.BaseResponse;
 import app.message.JwtResponse;
 import app.message.LoginRequest;
 import app.message.SignUpRequest;
@@ -60,12 +62,27 @@ public class AuthenController {
     }
     
     @PostMapping("/signup")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody SignUpRequest signup){
+    public ResponseEntity registerUser(@Valid @RequestBody SignUpRequest signup){
+    	User result = userRepository.checkDup(signup.getUsername(), signup.getEmail());
     	
-    	System.out.println(signup.getPassword());
-    	User user = new User(signup.getUsername(), signup.getEmail(), encoder.encode(signup.getPassword()));
-    	userRepository.save(user);
-    	return ResponseEntity.ok().body("User registered successfully");
+    	if(result == null) {
+    		User user = new User(signup.getUsername(), signup.getEmail(), encoder.encode(signup.getPassword()));
+    		userRepository.save(user);
+    		 Authentication authentication = authenticationManager.authenticate(
+                     new UsernamePasswordAuthenticationToken(
+                    		 signup.getUsername(),
+                    		 signup.getPassword()
+                     )
+             );
+
+             SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            
+             String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
+             return ResponseEntity.ok(new JwtResponse(jwt));
+    	}
+    	
+    	return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body("Account duplicate!");
     }
     @GetMapping("/checkUsername")
     public boolean checkUsernameExist(@RequestParam String username){

@@ -28,4 +28,17 @@ public class BaseResponse<T> {
     public void setData(T data) {
         this.data = data;
     }
+
+	public BaseResponse() {
+		super();
+	}
+
+	public BaseResponse(int code, String message, T data) {
+		super();
+		this.code = code;
+		this.message = message;
+		this.data = data;
+	}
+    
+    
 }
