@@ -31,9 +31,11 @@ public class CartService {
         User user = userRepository.findByUsername(username);
         CartItem cartItem = new CartItem();
         cartItem.setUser(user);
-        cartItem.setBook(bookRepository.findById(order.getId()).get());
+        Book book = bookRepository.findById(order.getId()).get();
+        cartItem.setBook(book);
         cartItem.setQuantity(order.getQuantity());
         cartRepository.save(cartItem);
+        user.getClickedBooks().remove(book);
         return getAllItemInCart(username);
     }
     public List<CartItem> editItem(String username, Long id, int quantity){

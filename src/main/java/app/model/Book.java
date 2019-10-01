@@ -2,8 +2,10 @@ package app.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import java.sql.Date;
 @Entity
 @Getter
@@ -24,6 +26,7 @@ public class Book {
     protected String providedBy;
     protected int rating;
     protected int price;
+    String imgUrl;
 
 
     @Column(nullable = true)

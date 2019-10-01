@@ -37,6 +37,12 @@ public class BookService {
     public List<Book> getBooksByCategory(String category){
         return bookRepository.findBooksByCategoryAndIsDelete(category, false);
     }
+    public List<Book> searchBookByName(String name){
+        return bookRepository.findBooksByProductNameContains(name);
+    }
+    public Book getBookById(Long id){
+        return bookRepository.findById(id).get();
+    }
     public Book saveBook(Book book){
         return bookRepository.save(book);
     }

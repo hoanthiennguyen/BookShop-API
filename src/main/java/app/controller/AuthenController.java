@@ -84,16 +84,7 @@ public class AuthenController {
     	
     	return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body("Account duplicate!");
     }
-    @GetMapping("/checkUsername")
-    public boolean checkUsernameExist(@RequestParam String username){
-        //TO-DO
-        return false;
-    }
-    @GetMapping("/checkEmail")
-    public boolean checkEmailExist(@RequestParam String email){
-        //TO-DO
-        return false;
-    }
+
   
 
 }

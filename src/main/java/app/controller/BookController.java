@@ -52,10 +52,24 @@ public class BookController {
         return response;
     }
 
-    @GetMapping
-    public BaseResponse getBookByCategory(@RequestParam String category){
+    @GetMapping("/category/{category}")
+    public BaseResponse getBookByCategory(@PathVariable String category){
         BaseResponse response = new BaseResponse();
         response.setData(bookService.getBooksByCategory(category));
+        return response;
+    }
+    @GetMapping
+    public BaseResponse searchBookByName(@RequestParam String name){
+        BaseResponse response = new BaseResponse();
+        response.setData(bookService.searchBookByName(name));
+        return response;
+    }
+
+
+    @GetMapping("/{id}")
+    public BaseResponse getBookById(@PathVariable Long id){
+        BaseResponse response = new BaseResponse();
+        response.setData(bookService.getBookById(id));
         return response;
     }
     @GetMapping("/discount")
