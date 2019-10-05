@@ -100,6 +100,7 @@ public class User {
 		this.passwordHash = passwordHash;
 	}
 	@ManyToMany
+	@JsonIgnore
 	private List<Book> clickedBooks;
 
 	public List<Book> getClickedBooks() {

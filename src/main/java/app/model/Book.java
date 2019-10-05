@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.sql.Date;
 @Entity
 @Getter
@@ -15,6 +16,7 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
     protected String productName;
+    @Min(0)
     protected int quantity;
     protected int inventory;
     protected Date updateDate;

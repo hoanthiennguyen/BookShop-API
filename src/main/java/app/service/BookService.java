@@ -2,6 +2,7 @@ package app.service;
 
 import app.model.Book;
 import app.model.User;
+import app.repository.BillDetailsRepository;
 import app.repository.BookRepository;
 import app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class BookService {
     private BookRepository bookRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private BillDetailsRepository billDetailsRepository;
 
     public List<Book> addBookToListOfClickedBooks(String username, Long bookId){
         User user = userRepository.findByUsername(username);
@@ -51,6 +54,18 @@ public class BookService {
     }
     public void deleteBook(Long id){
         bookRepository.deleteById(id);
+    }
+    public List<Book> getTopSales(){
+        List<Book> result = new ArrayList<>();
+        int i = 0;
+        List<Book> all = billDetailsRepository.getTop10Sales();
+        for (Book book: all) {
+            if(i <10){
+                result.add(book);
+                i++;
+            }
+        }
+         return result;
     }
 
 

@@ -78,6 +78,13 @@ public class BookController {
         response.setData(bookService.getTop10Discount());
         return response;
     }
+    @GetMapping("/topsales")
+    public BaseResponse getTopSales(){
+        BaseResponse response = new BaseResponse();
+        response.setData(bookService.getTopSales());
+        return response;
+    }
+
     @DeleteMapping("/{id}")
     public BaseResponse deleteBook(@PathVariable Long id){
         BaseResponse response = new BaseResponse();

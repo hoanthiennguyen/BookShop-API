@@ -55,14 +55,25 @@ public class CartService {
         List<CartItem> cartItems = getAllItemInCart(username);
         BookOrder[] bookOrders = new BookOrder[cartItems.size()];
         int index = 0;
+        //prepare order
         for(CartItem cartItem : cartItems){
+
+            //subtract number of quantity left
+            Book book = cartItem.getBook();
+            book.setQuantity(book.getQuantity() - cartItem.getQuantity());
+            bookRepository.save(book);
+
             BookOrder order = new BookOrder(cartItem.getBook().getId(), cartItem.getQuantity());
             bookOrders[index] = order;
             index++;
         }
+
         BookListOrder listOrder = new BookListOrder();
         listOrder.setBookOrders(bookOrders);
+        //save bill
         Bill result = postOrder(username,listOrder);
+
+        //delete all item in card
         deleteAll(username);
         return result;
 
