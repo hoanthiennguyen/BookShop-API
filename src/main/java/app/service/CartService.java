@@ -30,10 +30,10 @@ public class CartService {
     public List<CartItem> addItem(String username, BookOrder order){
         User user = userRepository.findByUsername(username);
         CartItem cartItem = new CartItem();
-//        cartItem.setUser(user);
+        cartItem.setUser(user);
         Book book = bookRepository.findById(order.getId()).get();
-//        cartItem.setBook(book);
-//        cartItem.setQuantity(order.getQuantity());
+        cartItem.setBook(book);
+        cartItem.setQuantity(order.getQuantity());
         cartRepository.save(cartItem);
         user.getClickedBooks().remove(book);
         return getAllItemInCart(username);
@@ -59,12 +59,12 @@ public class CartService {
         for(CartItem cartItem : cartItems){
 
             //subtract number of quantity left
-//            Book book = cartItem.getBook();
-//            book.setQuantity(book.getQuantity() - cartItem.getQuantity());
-//            bookRepository.save(book);
+            Book book = cartItem.getBook();
+            book.setQuantity(book.getQuantity() - cartItem.getQuantity());
+            bookRepository.save(book);
 
-//            BookOrder order = new BookOrder(cartItem.getBook().getId(), cartItem.getQuantity());
-//            bookOrders[index] = order;
+            BookOrder order = new BookOrder(cartItem.getBook().getId(), cartItem.getQuantity());
+            bookOrders[index] = order;
             index++;
         }
 
