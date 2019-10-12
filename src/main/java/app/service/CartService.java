@@ -55,7 +55,7 @@ public class CartService {
 
     public List<CartItem> editItem(String username, Long id, int quantity){
         CartItem cartItem = cartRepository.findById(id).get();
-        cartItem.setQuantity(quantity);
+//        cartItem.setQuantity(quantity);
         return getAllItemInCart(username);
     }
     public List<CartItem> deleteItem(String username, Long cartId){
