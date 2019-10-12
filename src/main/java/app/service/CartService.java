@@ -29,15 +29,30 @@ public class CartService {
     }
     public List<CartItem> addItem(String username, BookOrder order){
         User user = userRepository.findByUsername(username);
-        CartItem cartItem = new CartItem();
-        cartItem.setUser(user);
         Book book = bookRepository.findById(order.getId()).get();
-        cartItem.setBook(book);
-        cartItem.setQuantity(order.getQuantity());
-        cartRepository.save(cartItem);
         user.getClickedBooks().remove(book);
+        List<CartItem> listCartItems = cartRepository.findAllByUser(user);
+        boolean alreadyInCart = false;
+        for(CartItem cartItem: listCartItems){
+            if(cartItem.getBook().getId()== order.getId()){
+                cartItem.setQuantity(cartItem.getQuantity()+ order.getQuantity());
+                cartRepository.save(cartItem);
+                alreadyInCart = true;
+                break;
+            }
+        }
+        if(!alreadyInCart){
+            CartItem cartItem = new CartItem();
+            cartItem.setUser(user);
+
+            cartItem.setBook(book);
+            cartItem.setQuantity(order.getQuantity());
+            cartRepository.save(cartItem);
+        }
+
         return getAllItemInCart(username);
     }
+
     public List<CartItem> editItem(String username, Long id, int quantity){
         CartItem cartItem = cartRepository.findById(id).get();
         cartItem.setQuantity(quantity);
