@@ -25,8 +25,10 @@ public class CartController {
         return response;
     }
     @PostMapping
-    public List<CartItem> addItem(@AuthenticationPrincipal Authentication authentication, @RequestBody BookOrder order){
-        return cartService.addItem(authentication.getName(),order);
+    public BaseResponse addItem(@AuthenticationPrincipal Authentication authentication, @RequestBody BookOrder order){
+        BaseResponse response = new BaseResponse();
+        response.setData(cartService.addItem(authentication.getName(),order));
+        return response;
     }
     @PutMapping("/{id}")
     public BaseResponse editItem(@AuthenticationPrincipal Authentication authentication, @PathVariable Long id, @RequestBody ChangeQuantityInCartItemRequest quantity){
