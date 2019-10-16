@@ -6,6 +6,9 @@ import app.message.ClickedBooksRequest;
 import app.model.Book;
 import app.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -53,9 +56,18 @@ public class BookController {
     }
 
     @GetMapping("/category/{category}")
-    public BaseResponse getBookByCategory(@PathVariable String category){
+    public BaseResponse getBookByCategory(@PathVariable String category
+                                          ,@RequestParam(required = false, defaultValue = "0") int page
+                                        , @RequestParam(required = false, defaultValue = "4") int size){
+        Pageable pageable = PageRequest.of(page,size);
         BaseResponse response = new BaseResponse();
-        response.setData(bookService.getBooksByCategory(category));
+        response.setData(bookService.getBooksByCategory(category,pageable));
+        return response;
+    }
+    @GetMapping("/names")
+    public BaseResponse getAllBookNames(){
+        BaseResponse response = new BaseResponse();
+        response.setData(bookService.getAllBookName());
         return response;
     }
     @GetMapping

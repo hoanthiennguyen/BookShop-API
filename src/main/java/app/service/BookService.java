@@ -6,10 +6,13 @@ import app.repository.BillDetailsRepository;
 import app.repository.BookRepository;
 import app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -37,8 +40,13 @@ public class BookService {
         User user = userRepository.findByUsername(username);
         return user.getClickedBooks();
     }
-    public List<Book> getBooksByCategory(String category){
-        return bookRepository.findBooksByCategoryAndIsDelete(category, false);
+    public List<String> getAllBookName(){
+        return bookRepository.findAll().stream().map(
+                book -> book.getProductName())
+                .collect(Collectors.toList());
+    }
+    public List<Book> getBooksByCategory(String category, Pageable pageable){
+        return bookRepository.findBooksByCategoryAndIsDelete(category, false, pageable);
     }
     public List<Book> searchBookByName(String name){
         return bookRepository.findBooksByProductNameContains(name);
