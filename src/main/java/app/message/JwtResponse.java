@@ -8,7 +8,12 @@ public class JwtResponse {
 	        this.token = accessToken;
 	    }
 
-	    public String getAccessToken() {
+	public JwtResponse( String type, String token) {
+		this.token = token;
+		this.type = type;
+	}
+
+	public String getAccessToken() {
 	        return token;
 	    }
 

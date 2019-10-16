@@ -46,19 +46,25 @@ public class AuthenController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody  LoginRequest loginRequest) {
 
-        
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
-                        loginRequest.getPassword()
-                )
-        );
+        try{
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsername(),
+                            loginRequest.getPassword()
+                    )
+            );
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-       
-        String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
-        return ResponseEntity.ok(new JwtResponse(jwt));
+
+            String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
+            return ResponseEntity.ok(new JwtResponse(jwt));
+        }
+        catch (Exception e){
+            JwtResponse jwtResponse = new JwtResponse("Fail","Incorrect username or password");
+            return ResponseEntity.ok(jwtResponse);
+        }
+
     }
     
     @PostMapping("/signup")
