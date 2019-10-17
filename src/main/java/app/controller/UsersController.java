@@ -53,9 +53,9 @@ public class UsersController {
 		if(result!=null) {
 			
 			result.setEmail(user.getEmail());
-			result.setAddress(user.getAddress());
 			result.setFullname(user.getFullname());
 			result.setPhone(user.getPhone());
+			result.setAddressList(user.getAddressList());
 			userRepo.save(result);
 			return new BaseResponse(200,"Update Done",result);
 		}
