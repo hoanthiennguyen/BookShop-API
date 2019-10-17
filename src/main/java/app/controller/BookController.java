@@ -30,15 +30,15 @@ public class BookController {
 //        response.setData(books);
 //        return response;
 //    }
-    @PostMapping("/clicked-books")
-    public BaseResponse addBookOnListOfClickedBook(@AuthenticationPrincipal Authentication authentication,
-                                                   @Valid @RequestBody ClickedBooksRequest clickedBooksRequest){
-        Long bookId = clickedBooksRequest.getBookId();
-        String username = authentication.getName();
-        bookService.addBookToListOfClickedBooks(username,bookId);
-        ClickedBooksResponse res = new ClickedBooksResponse();
-        return res;
-    }
+//    @PostMapping("/clickedBooks")
+//    public BaseResponse addBookOnListOfClickedBook(@AuthenticationPrincipal Authentication authentication,
+//                                                   @Valid @RequestBody ClickedBooksRequest clickedBooksRequest){
+//        Long bookId = clickedBooksRequest.getBookId();
+//        String username = authentication.getName();
+//        bookService.addBookToListOfClickedBooks(username,bookId);
+//        ClickedBooksResponse res = new ClickedBooksResponse();
+//        return res;
+//    }
 
 
     @PostMapping
@@ -55,14 +55,12 @@ public class BookController {
     }
 
     @GetMapping("/category/{category}")
-    public BaseResponse getBookByCategory(@AuthenticationPrincipal Authentication authenticationPrincipal
-                                            ,@PathVariable String category
+    public BaseResponse getBookByCategory(@PathVariable String category
                                           ,@RequestParam(required = false, defaultValue = "0") int page
                                         , @RequestParam(required = false, defaultValue = "4") int size){
-        String username = authenticationPrincipal.getName();
         Pageable pageable = PageRequest.of(page,size);
         BaseResponse response = new BaseResponse();
-        response.setData(bookService.getBooksByCategory(username,category,pageable));
+        response.setData(bookService.getBooksByCategory(category,pageable));
         return response;
     }
     @GetMapping("/names")

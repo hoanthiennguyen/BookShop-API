@@ -1,22 +1,22 @@
 package app.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
+import app.message.ClickedBooksRequest;
+import app.model.Book;
+import app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import app.jwt.JwtTokenProvider;
 import app.message.BaseResponse;
 import app.model.User;
 import app.repository.UserRepository;
+
+import java.util.List;
 
 
 @RestController
@@ -27,6 +27,8 @@ public class UsersController {
 	
 	@Autowired
 	HttpServletRequest request;
+	@Autowired
+	UserService userService;
 	
 	@Autowired 
 	JwtTokenProvider jwt;
@@ -64,6 +66,29 @@ public class UsersController {
 	public BaseResponse deleteUser(@PathVariable Long id) {
 		userRepo.deleteById(id);
 		return new BaseResponse(200, "Delete",id);
+	}
+	@GetMapping("/clickedBooks")
+    public BaseResponse getAllClickedBooks(@AuthenticationPrincipal Authentication authenticationPrincipal){
+        List<Book> books = userService.getClickedBooks(authenticationPrincipal.getName());
+        BaseResponse response = new BaseResponse();
+        response.setData(books);
+        return response;
+    }
+    @PostMapping("/clickedBooks")
+    public BaseResponse addBookOnListOfClickedBook(@AuthenticationPrincipal Authentication authentication,
+                                                   @Valid @RequestBody ClickedBooksRequest clickedBooksRequest){
+        Long bookId = clickedBooksRequest.getBookId();
+        String username = authentication.getName();
+       	BaseResponse response = new BaseResponse();
+       	response.setData(userService.addBookToListOfClickedBooks(username,bookId));
+       	return response;
+    }
+    @DeleteMapping("/clickedBooks/{id}")
+    public BaseResponse deleteClickedBook(@AuthenticationPrincipal Authentication authentication,
+										  @PathVariable long id){
+		BaseResponse response = new BaseResponse();
+		userService.deleteClickedBook(authentication.getName(),id);
+		return response;
 	}
 	
 	

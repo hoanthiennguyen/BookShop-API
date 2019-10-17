@@ -22,36 +22,19 @@ public class BookService {
     @Autowired
     private BillDetailsRepository billDetailsRepository;
 
-    public List<Book> addBookToListOfClickedBooks(String username, Long bookId){
-        User user = userRepository.findByUsername(username);
-        Book book = bookRepository.findById(bookId).get();
-        List<Book> books = user.getClickedBooks();
-        if(!books.contains(book))
-            books.add(book);
-        else {
-            books.remove(book);
-            books.add(book);
-        }
-        userRepository.save(user);
-        return user.getClickedBooks();
-    }
-    public List<Book> getAllClickBooks(String username){
-        User user = userRepository.findByUsername(username);
-        return user.getClickedBooks();
-    }
+
+
     public List<String> getAllBookName(){
         return bookRepository.findAll().stream().map(
                 book -> book.getProductName())
                 .collect(Collectors.toList());
     }
-    public List<Book> getBooksByCategory(String username,String category, Pageable pageable){
+    public List<Book> getBooksByCategory(String category, Pageable pageable){
         switch (category){
             case "topSales":
                 return getTopSales(pageable);
             case "discount":
                 return getTopDiscount(pageable);
-            case "clickedBooks":
-                return getAllClickBooks(username);
         }
         return bookRepository.findBooksByCategoryAndIsDelete(category, false, pageable);
     }
