@@ -2,6 +2,7 @@ package app.repository;
 
 import app.model.BillDetails;
 import app.model.Book;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -12,5 +13,5 @@ public interface BillDetailsRepository extends CrudRepository<BillDetails, Long>
             " FROM BillDetails bill\n" +
             " GROUP BY bill.book\n" +
             " ORDER BY sumquantity DESC")
-    List<Book> getTop10Sales();
+    List<Book> getTopSales(Pageable pageable);
 }

@@ -8,7 +8,6 @@ import app.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +23,13 @@ public class BookController {
 
 
 
-    @GetMapping("/clicked-books")
-    public BaseResponse getAllClickedBooks(@AuthenticationPrincipal Authentication authenticationPrincipal){
-        List<Book> books = bookService.getAllClickBooks(authenticationPrincipal.getName());
-        BaseResponse response = new BaseResponse();
-        response.setData(books);
-        return response;
-    }
+//    @GetMapping("/clicked-books")
+//    public BaseResponse getAllClickedBooks(@AuthenticationPrincipal Authentication authenticationPrincipal){
+//        List<Book> books = bookService.getAllClickBooks(authenticationPrincipal.getName());
+//        BaseResponse response = new BaseResponse();
+//        response.setData(books);
+//        return response;
+//    }
     @PostMapping("/clicked-books")
     public BaseResponse addBookOnListOfClickedBook(@AuthenticationPrincipal Authentication authentication,
                                                    @Valid @RequestBody ClickedBooksRequest clickedBooksRequest){
@@ -56,12 +55,14 @@ public class BookController {
     }
 
     @GetMapping("/category/{category}")
-    public BaseResponse getBookByCategory(@PathVariable String category
+    public BaseResponse getBookByCategory(@AuthenticationPrincipal Authentication authenticationPrincipal
+                                            ,@PathVariable String category
                                           ,@RequestParam(required = false, defaultValue = "0") int page
                                         , @RequestParam(required = false, defaultValue = "4") int size){
+        String username = authenticationPrincipal.getName();
         Pageable pageable = PageRequest.of(page,size);
         BaseResponse response = new BaseResponse();
-        response.setData(bookService.getBooksByCategory(category,pageable));
+        response.setData(bookService.getBooksByCategory(username,category,pageable));
         return response;
     }
     @GetMapping("/names")
@@ -84,18 +85,18 @@ public class BookController {
         response.setData(bookService.getBookById(id));
         return response;
     }
-    @GetMapping("/discount")
-    public BaseResponse getTop10Discount(){
-        BaseResponse response = new BaseResponse();
-        response.setData(bookService.getTop10Discount());
-        return response;
-    }
-    @GetMapping("/topsales")
-    public BaseResponse getTopSales(){
-        BaseResponse response = new BaseResponse();
-        response.setData(bookService.getTopSales());
-        return response;
-    }
+//    @GetMapping("/discount")
+//    public BaseResponse getTop10Discount(){
+//        BaseResponse response = new BaseResponse();
+//        response.setData(bookService.getTopDiscount());
+//        return response;
+//    }
+//    @GetMapping("/topsales")
+//    public BaseResponse getTopSales(){
+//        BaseResponse response = new BaseResponse();
+//        response.setData(bookService.getTopSales());
+//        return response;
+//    }
 
     @DeleteMapping("/{id}")
     public BaseResponse deleteBook(@PathVariable Long id){

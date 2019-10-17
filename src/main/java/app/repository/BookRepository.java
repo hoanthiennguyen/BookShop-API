@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findBooksByCategoryAndIsDelete(String category, boolean delete, Pageable pageable);
-    List<Book> findTop10ByOrderByDiscountDesc();
-    List<Book> findBooksByProductNameContains(String name);
+    List<Book> findByIsDeleteOrderByDiscountDesc(boolean delete, Pageable pageable);
+    List<Book> findBooksByIsDeleteAndProductNameContains(boolean delete,String name);
 }

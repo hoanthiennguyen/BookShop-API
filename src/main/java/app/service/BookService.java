@@ -6,7 +6,6 @@ import app.repository.BillDetailsRepository;
 import app.repository.BookRepository;
 import app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -45,11 +44,19 @@ public class BookService {
                 book -> book.getProductName())
                 .collect(Collectors.toList());
     }
-    public List<Book> getBooksByCategory(String category, Pageable pageable){
+    public List<Book> getBooksByCategory(String username,String category, Pageable pageable){
+        switch (category){
+            case "topSales":
+                return getTopSales(pageable);
+            case "discount":
+                return getTopDiscount(pageable);
+            case "clickedBooks":
+                return getAllClickBooks(username);
+        }
         return bookRepository.findBooksByCategoryAndIsDelete(category, false, pageable);
     }
     public List<Book> searchBookByName(String name){
-        return bookRepository.findBooksByProductNameContains(name);
+        return bookRepository.findBooksByIsDeleteAndProductNameContains(false,name);
     }
     public Book getBookById(Long id){
         return bookRepository.findById(id).get();
@@ -57,23 +64,16 @@ public class BookService {
     public Book saveBook(Book book){
         return bookRepository.save(book);
     }
-    public List<Book> getTop10Discount(){
-        return bookRepository.findTop10ByOrderByDiscountDesc();
+    public List<Book> getTopDiscount(Pageable pageable){
+        return bookRepository.findByIsDeleteOrderByDiscountDesc(false,pageable);
     }
     public void deleteBook(Long id){
         bookRepository.deleteById(id);
     }
-    public List<Book> getTopSales(){
-        List<Book> result = new ArrayList<>();
-        int i = 0;
-        List<Book> all = billDetailsRepository.getTop10Sales();
-        for (Book book: all) {
-            if(i <10){
-                result.add(book);
-                i++;
-            }
-        }
-         return result;
+    public List<Book> getTopSales(Pageable pageable){
+         return billDetailsRepository.getTopSales(pageable);
+
+
     }
 
 

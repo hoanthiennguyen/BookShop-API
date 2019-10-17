@@ -110,4 +110,14 @@ public class User {
 	public void setClickedBooks(List<Book> clickedBooks) {
 		this.clickedBooks = clickedBooks;
 	}
+	@ElementCollection
+	private List<String> addressList;
+
+	public List<String> getAddressList() {
+		return addressList;
+	}
+
+	public void setAddressList(List<String> addressList) {
+		this.addressList = addressList;
+	}
 }
