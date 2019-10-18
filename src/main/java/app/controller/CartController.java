@@ -3,6 +3,7 @@ package app.controller;
 import app.message.BaseResponse;
 import app.message.BookOrder;
 import app.message.ChangeQuantityInCartItemRequest;
+import app.message.MakePaymentRequest;
 import app.model.Bill;
 import app.model.CartItem;
 import app.service.CartService;
@@ -11,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -43,9 +45,10 @@ public class CartController {
         return response;
     }
     @PostMapping("/pay")
-    public BaseResponse makePay(@AuthenticationPrincipal Authentication authentication){
+    public BaseResponse makePay(@AuthenticationPrincipal Authentication authentication,@Valid @RequestBody MakePaymentRequest makePaymentRequest){
         BaseResponse response = new BaseResponse();
-        response.setData(cartService.pay(authentication.getName()));
+        String deliverAddress = makePaymentRequest.getDeliveryAddress();
+        response.setData(cartService.pay(authentication.getName(),deliverAddress));
         return response;
 
     }

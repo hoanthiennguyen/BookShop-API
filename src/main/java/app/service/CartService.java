@@ -67,7 +67,7 @@ public class CartService {
         cartRepository.deleteAllByUser_Username(username);
     }
     @Transactional
-    public Bill pay(String username){
+    public Bill pay(String username, String deliveryAddress){
         List<CartItem> cartItems = getAllItemInCart(username);
         BookOrder[] bookOrders = new BookOrder[cartItems.size()];
         int index = 0;
@@ -87,17 +87,17 @@ public class CartService {
         BookListOrder listOrder = new BookListOrder();
         listOrder.setBookOrders(bookOrders);
         //save bill
-        Bill result = postOrder(username,listOrder);
+        Bill result = postOrder(username,deliveryAddress,listOrder);
 
         //delete all item in card
         deleteAll(username);
         return result;
 
     }
-    public Bill postOrder(String username, BookListOrder listOrder){
+    public Bill postOrder(String username,String deliveryAddress, BookListOrder listOrder){
         User user = userRepository.findByUsername(username);
         Date date = new Date(System.currentTimeMillis());
-        Bill result = billRepository.save(new Bill(user,date));
+        Bill result = billRepository.save(new Bill(user,deliveryAddress,date));
         for (BookOrder order: listOrder.getBookOrders()) {
             Book book = bookRepository.findById(order.getId()).get();
             int bookQuantity = order.getQuantity();

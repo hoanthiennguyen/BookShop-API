@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.List;
 
 @Entity
 @Getter
@@ -17,9 +16,16 @@ public class Bill {
     @ManyToOne
     @JoinColumn(name = "user_id")
     User user;
+    String deliveryAddress;
 
     public Bill(User user, Date dateCreated) {
         this.user = user;
+        this.dateCreated = dateCreated;
+    }
+
+    public Bill(User user, String deliveryAddress, Date dateCreated) {
+        this.user = user;
+        this.deliveryAddress = deliveryAddress;
         this.dateCreated = dateCreated;
     }
 
